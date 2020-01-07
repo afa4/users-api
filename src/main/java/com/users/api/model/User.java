@@ -20,7 +20,7 @@ public class User {
     private String name;
     private String email;
     private String password;
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private List<Phone> phones;
 
     public void setPhones(List<Phone> phones) {

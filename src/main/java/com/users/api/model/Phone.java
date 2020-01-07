@@ -1,10 +1,14 @@
 package com.users.api.model;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class Phone {
     @Id
@@ -15,4 +19,9 @@ public class Phone {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    public Phone(String ddd, String number) {
+        this.ddd = ddd;
+        this.number = number;
+    }
 }

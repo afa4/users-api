@@ -9,9 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("/user")
+@RestController
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
@@ -21,9 +23,9 @@ public class UserController {
     public ResponseEntity create(@RequestBody UserDTO userDTO) {
         try {
             userService.create(userDTO);
-            return new ResponseEntity(HttpStatus.CREATED);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (UserExistsException e) {
-            return new ResponseEntity(new MessageDTO(e.getMessage()), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(new MessageDTO(e.getMessage()), HttpStatus.CONFLICT);
         }
 
     }

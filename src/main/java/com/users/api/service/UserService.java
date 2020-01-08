@@ -1,7 +1,7 @@
 package com.users.api.service;
 
 import com.google.common.hash.Hashing;
-import com.users.api.exception.UserExistsException;
+import com.users.api.exception.EmailAlreadyExistsException;
 import com.users.api.model.Phone;
 import com.users.api.model.User;
 import com.users.api.model.dto.UserDTO;
@@ -21,9 +21,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User create(UserDTO userDTO) throws UserExistsException {
+    public User create(UserDTO userDTO) throws EmailAlreadyExistsException {
         if (userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
-            throw new UserExistsException();
+            throw new EmailAlreadyExistsException();
         }
 
         User user = User.builder()

@@ -1,6 +1,6 @@
 package com.users.api.controller;
 
-import com.users.api.exception.UserExistsException;
+import com.users.api.exception.EmailAlreadyExistsException;
 import com.users.api.model.dto.MessageDTO;
 import com.users.api.model.dto.UserCreatedDTO;
 import com.users.api.model.dto.UserDTO;
@@ -32,8 +32,10 @@ public class UserController {
                     .token(user.getToken())
                     .build();
             return new ResponseEntity<>(response, HttpStatus.CREATED);
-        } catch (UserExistsException e) {
+        } catch (EmailAlreadyExistsException e) {
             return new ResponseEntity<>(new MessageDTO(e.getMessage()), HttpStatus.CONFLICT);
+        } catch(Exception e) {
+            return new ResponseEntity<>(new MessageDTO(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }

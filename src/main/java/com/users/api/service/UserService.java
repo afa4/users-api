@@ -1,5 +1,6 @@
 package com.users.api.service;
 
+import com.google.common.hash.Hashing;
 import com.users.api.exception.UserExistsException;
 import com.users.api.model.Phone;
 import com.users.api.model.User;
@@ -8,7 +9,10 @@ import com.users.api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,7 +21,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public void create(UserDTO userDTO) throws UserExistsException {
+    public User create(UserDTO userDTO) throws UserExistsException {
         if (userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
             throw new UserExistsException();
         }
@@ -38,7 +42,9 @@ public class UserService {
 
 
     private String encrypt(String password) {
-        return password;
+        return Hashing.sha256()
+                .hashString(password, StandardCharsets.UTF_8)
+                .toString();
     }
 
 

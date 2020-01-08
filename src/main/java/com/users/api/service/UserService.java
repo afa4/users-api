@@ -27,25 +27,24 @@ public class UserService {
         }
 
         User user = User.builder()
+                .created(LocalDateTime.now())
                 .name(userDTO.getName())
                 .email(userDTO.getEmail())
                 .password(encrypt(userDTO.getPassword()))
+                .token(UUID.randomUUID().toString())
                 .build();
-
         List<Phone> phones = userDTO.getPhones().stream()
                 .map(dto -> new Phone(dto.getDdd(), dto.getNumber()))
                 .collect(Collectors.toList());
-
         user.setPhones(phones);
-        User stored = userRepository.save(user);
-    }
 
+        return userRepository.save(user);
+    }
 
     private String encrypt(String password) {
         return Hashing.sha256()
                 .hashString(password, StandardCharsets.UTF_8)
                 .toString();
     }
-
 
 }

@@ -2,6 +2,7 @@ package com.users.api.controller;
 
 import com.users.api.exception.UserExistsException;
 import com.users.api.model.dto.MessageDTO;
+import com.users.api.model.dto.UserCreatedDTO;
 import com.users.api.model.dto.UserDTO;
 import com.users.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,15 @@ public class UserController {
     @PostMapping
     public ResponseEntity create(@RequestBody UserDTO userDTO) {
         try {
-            userService.create(userDTO);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            var user = userService.create(userDTO);
+            var response = UserCreatedDTO.builder()
+                    .id(user.getId())
+                    .created(user.getCreated())
+                    .modified(user.getModified())
+                    .lastLogin(user.getLastLogin())
+                    .token(user.getToken())
+                    .build();
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (UserExistsException e) {
             return new ResponseEntity<>(new MessageDTO(e.getMessage()), HttpStatus.CONFLICT);
         }

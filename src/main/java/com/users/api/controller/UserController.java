@@ -24,17 +24,16 @@ public class UserController {
     public ResponseEntity create(@RequestBody UserDTO userDTO) {
         try {
             var user = userService.create(userDTO);
-            var response = UserCreatedDTO.builder()
-                    .id(user.getId())
-                    .created(user.getCreated())
-                    .modified(user.getModified())
-                    .lastLogin(user.getLastLogin())
-                    .token(user.getToken())
-                    .build();
+            var response = new UserCreatedDTO(
+                    user.getId(),
+                    user.getCreated(),
+                    user.getModified(),
+                    user.getLastLogin(),
+                    user.getToken());
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (EmailAlreadyExistsException e) {
             return new ResponseEntity<>(new MessageDTO(e.getMessage()), HttpStatus.CONFLICT);
-        } catch(Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(new MessageDTO(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 

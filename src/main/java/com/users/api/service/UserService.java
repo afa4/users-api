@@ -1,15 +1,14 @@
 package com.users.api.service;
 
 import com.users.api.exception.EmailAlreadyExistsException;
+import com.users.api.exception.UserNotFoundException;
 import com.users.api.model.Phone;
 import com.users.api.model.User;
 import com.users.api.model.dto.UserDTO;
 import com.users.api.repository.UserRepository;
+import com.users.api.util.JwtUtil;
 import com.users.api.util.PasswordUtil;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -22,8 +21,8 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-    @Value("${jwt.secret}")
-    private String SECRET;
+    @Autowired
+    private JwtUtil jwtUtil;
 
     public User create(UserDTO userDTO) throws EmailAlreadyExistsException {
         if (userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
@@ -33,7 +32,7 @@ public class UserService {
         Date creationDate = new Date();
         User user = User.builder()
                 .uuid(UUID.randomUUID().toString())
-                .token(generateJwtToken(userDTO.getEmail(), userDTO.getName(), creationDate))
+                .token(jwtUtil.generateToken(userDTO.getEmail(), userDTO.getName(), creationDate))
                 .created(creationDate)
                 .name(userDTO.getName())
                 .email(userDTO.getEmail())
@@ -47,13 +46,8 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    private String generateJwtToken(String email, String name, Date creationDate) {
-        return Jwts.builder()
-                .setSubject(email)
-                .claim("name", name)
-                .setIssuedAt(creationDate)
-                .signWith(SignatureAlgorithm.HS512, SECRET)
-                .compact();
+    public User findByToken(String token) throws UserNotFoundException {
+        return userRepository.findByToken(token).orElseThrow(UserNotFoundException::new);
     }
 
 }

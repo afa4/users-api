@@ -24,8 +24,7 @@ public class UserController {
     public ResponseEntity create(@RequestBody UserDTO userDTO) {
         try {
             var user = userService.create(userDTO);
-            var response = new UserCreatedDTO(
-                    user.getId(),
+            var response = new UserCreatedDTO(user.getUuid(),
                     user.getCreated(),
                     user.getModified(),
                     user.getLastLogin(),
@@ -33,7 +32,7 @@ public class UserController {
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (EmailAlreadyExistsException e) {
             return new ResponseEntity<>(new MessageDTO(e.getMessage()), HttpStatus.CONFLICT);
-        } catch (Exception e) {
+        } catch(Exception e) {
             return new ResponseEntity<>(new MessageDTO(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 

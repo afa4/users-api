@@ -14,7 +14,9 @@ import java.util.List;
 @Entity
 public class User {
     @Id
-    private String id;
+    @GeneratedValue
+    private Long id;
+    private String uuid;
     private String name;
     private String email;
     private String password;

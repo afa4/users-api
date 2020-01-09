@@ -32,7 +32,7 @@ public class UserService {
 
         Date creationDate = new Date();
         User user = User.builder()
-                .id(UUID.randomUUID().toString())
+                .uuid(UUID.randomUUID().toString())
                 .token(generateJwtToken(userDTO.getEmail(), userDTO.getName(), creationDate))
                 .created(creationDate)
                 .name(userDTO.getName())

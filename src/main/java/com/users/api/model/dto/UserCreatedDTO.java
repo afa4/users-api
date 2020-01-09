@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Builder
@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class UserCreatedDTO {
     private String id;
-    private LocalDateTime created;
-    private LocalDateTime modified;
-    private LocalDateTime lastLogin;
+    private Date created;
+    private Date modified;
+    private Date lastLogin;
     private String token;
 }

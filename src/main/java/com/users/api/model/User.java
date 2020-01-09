@@ -1,13 +1,10 @@
 package com.users.api.model;
 
 import lombok.*;
-import org.hibernate.annotations.Type;
-import org.hibernate.type.UUIDBinaryType;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -18,13 +15,16 @@ import java.util.UUID;
 public class User {
     @Id
     private String id;
-    private LocalDateTime created;
-    private LocalDateTime modified;
-    private LocalDateTime lastLogin;
     private String name;
     private String email;
     private String password;
     private String token;
+    @Temporal(value = TemporalType.TIMESTAMP)
+    private Date created;
+    @Temporal(value = TemporalType.TIMESTAMP)
+    private Date modified;
+    @Temporal(value = TemporalType.TIMESTAMP)
+    private Date lastLogin;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
     private List<Phone> phones;

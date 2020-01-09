@@ -37,7 +37,7 @@ public class UserController {
             return new ResponseEntity(new MessageDTO(e.getMessage()), HttpStatus.UNAUTHORIZED);
         } catch (EmailAlreadyExistsException e) {
             return new ResponseEntity<>(new MessageDTO(e.getMessage()), HttpStatus.CONFLICT);
-        } catch(Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(new MessageDTO(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 

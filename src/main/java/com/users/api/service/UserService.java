@@ -6,6 +6,7 @@ import com.users.api.model.Phone;
 import com.users.api.model.User;
 import com.users.api.model.dto.UserDTO;
 import com.users.api.repository.UserRepository;
+import org.hibernate.type.UUIDBinaryType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,11 +28,12 @@ public class UserService {
         }
 
         User user = User.builder()
+                .id(UUID.randomUUID().toString())
+                .token(UUID.randomUUID().toString())
                 .created(LocalDateTime.now())
                 .name(userDTO.getName())
                 .email(userDTO.getEmail())
                 .password(encrypt(userDTO.getPassword()))
-                .token(UUID.randomUUID().toString())
                 .build();
         List<Phone> phones = userDTO.getPhones().stream()
                 .map(dto -> new Phone(dto.getDdd(), dto.getNumber()))

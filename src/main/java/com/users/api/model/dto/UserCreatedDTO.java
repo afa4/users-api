@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserCreatedDTO {
-    private Long id;
+    private String id;
     private LocalDateTime created;
     private LocalDateTime modified;
     private LocalDateTime lastLogin;

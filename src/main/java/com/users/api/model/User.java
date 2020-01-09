@@ -2,6 +2,7 @@ package com.users.api.model;
 
 import lombok.*;
 import org.hibernate.annotations.Type;
+import org.hibernate.type.UUIDBinaryType;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -16,8 +17,7 @@ import java.util.UUID;
 @Entity
 public class User {
     @Id
-    @GeneratedValue
-    private Long id;
+    private String id;
     private LocalDateTime created;
     private LocalDateTime modified;
     private LocalDateTime lastLogin;

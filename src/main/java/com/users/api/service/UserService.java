@@ -9,10 +9,9 @@ import com.users.api.util.PasswordUtil;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.xml.crypto.Data;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -23,7 +22,8 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
-    private static final String SECRET = "30c6ed0c-be74-41cd-9d0d-817aea4fa0c6";
+    @Value("${jwt.secret}")
+    private String SECRET;
 
     public User create(UserDTO userDTO) throws EmailAlreadyExistsException {
         if (userRepository.findByEmail(userDTO.getEmail()).isPresent()) {

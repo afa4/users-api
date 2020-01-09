@@ -1,5 +1,6 @@
 package com.users.api.controller;
 
+import com.users.api.exception.EmailOrPasswordIncorrectException;
 import com.users.api.exception.UnauthorizedException;
 import com.users.api.model.dto.LoginDTO;
 import com.users.api.model.dto.MessageDTO;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,10 +21,10 @@ public class LoginController {
     private LoginService loginService;
 
     @PostMapping
-    public ResponseEntity login(LoginDTO loginDTO) {
+    public ResponseEntity login(@RequestBody LoginDTO loginDTO) {
         try {
             return ResponseEntity.ok(loginService.login(loginDTO.getEmail(), loginDTO.getPassword()));
-        } catch (UnauthorizedException e) {
+        } catch (EmailOrPasswordIncorrectException e) {
             return new ResponseEntity(new MessageDTO(e.getMessage()), HttpStatus.UNAUTHORIZED);
         }
     }

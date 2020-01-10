@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "\"USER\"")
+@Table(name = "\"user\"")
 public class User {
     @Id
     @GeneratedValue

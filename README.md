@@ -3,7 +3,7 @@ App for registering users with login.
 
 ## Usage
  - After build, you'll need to insert the root user in the database to use the app (root.sql)
- - After that you can log in into application with root user credentials:
+ - After that, you can sign in application with root user credentials:
 
 *POST <host>/login*
 
@@ -16,8 +16,9 @@ App for registering users with login.
 }
 ```
 
-- After previous request you'll receive the JWT token to access "/user" endpoint and create new users
-- To create new users you'll need to POST into "<host>/users" resource passing the previous receivet token into "Autorizathon"
+RESPONSE: User info and JWT token to access "/user" endpoint and create new users
+
+- To create new users you'll need to POST into "<host>/users" resource passing the previous received token in "Autorizathon"
 header as a Bearer token:
 
 ```Authorization = Bearer <jwt_token>```

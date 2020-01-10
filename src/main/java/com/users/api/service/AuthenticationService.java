@@ -35,6 +35,9 @@ public class AuthenticationService {
     }
 
     private boolean tokenExpired(Date userLastLogin) {
-        return System.currentTimeMillis() - userLastLogin.getTime() > tokenTtl;
+        if(Objects.nonNull(userLastLogin)) {
+            return System.currentTimeMillis() - userLastLogin.getTime() > tokenTtl;
+        }
+        return false;
     }
 }
